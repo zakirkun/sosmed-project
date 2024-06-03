@@ -1,0 +1,39 @@
+version: '3'
+
+services:
+  mysqldb:
+    image: mysql:latest
+    container_name: mysqldb
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: HackerTzy1337
+      MYSQL_DATABASE: social_media
+      MYSQL_USER: zakirkun
+      MYSQL_PASSWORD: SecretBase112233
+    ports:
+      - '3306:3306'
+    volumes:
+      - 'mysql_data:/var/lib/mysql'
+    networks:
+      - infrastructure
+  minio:
+    image: docker.io/bitnami/minio:latest
+    ports:
+      - '9000:9000'
+      - '9001:9001'
+    networks:
+      - infrastructure
+    volumes:
+      - 'minio_data:/data'
+    environment:
+      - MINIO_ROOT_USER=zakirkun
+      - MINIO_ROOT_PASSWORD=MinioHackM31332
+      - MINIO_DEFAULT_BUCKETS=social_media
+
+networks:
+  infrastructure:
+    driver: bridge
+
+volumes:
+  mysql_data:
+  minio_data:
