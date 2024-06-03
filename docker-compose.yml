@@ -29,6 +29,30 @@ services:
       - MINIO_ROOT_USER=zakirkun
       - MINIO_ROOT_PASSWORD=MinioHackM31332
       - MINIO_DEFAULT_BUCKETS=social_media
+  rabbitmq:
+    image: "rabbitmq:3.8-management"
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"   # RabbitMQ default port
+      - "15672:15672" # RabbitMQ Management Plugin port
+    environment:
+      - RABBITMQ_DEFAULT_USER=zakirkun
+      - RABBITMQ_DEFAULT_PASS=zakir123
+    networks:
+      - infrastructure
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+  redis:
+    image: redis
+    container_name: redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    networks:
+      - infrastructure
+    volumes:
+      - redis_data:/data
+
 
 networks:
   infrastructure:
@@ -37,3 +61,5 @@ networks:
 volumes:
   mysql_data:
   minio_data:
+  rabbitmq_data:
+  redis_data:
